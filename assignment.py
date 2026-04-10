@@ -95,12 +95,60 @@ session = Session(engine)
 # for product in products:
 #     print(f"Product: {product.name}, Price: {product.price}")
 
+print("----------------------------------------------------------")
+
 # Retrieve all orders, showing the user’s name, product name, and quantity.
 orders = session.scalars(select(Order)).all()
-print("Orders found:", len(orders))
+print("Orders found:")
 
 for order in orders:
     for user in order.users:
             for product in order.products:
                 print(f"User: {user.name}, Product: {product.name}, Quantity: {order.quantity}")
 
+print("----------------------------------------------------------")
+
+# Update a product’s price.
+query = select(Product).where(Product.name == "Laptop")
+laptop = session.execute(query).scalars().first()
+
+laptop.price = 1100
+session.commit()
+
+print(f"Updated Laptop Price: {laptop.price}")
+
+print("----------------------------------------------------------")
+
+# Delete a user by ID.
+# query = select(User).where(User.id == 1)
+# user_to_delete = session.execute(query).scalars().first()
+
+# session.delete(user_to_delete)
+# session.commit()
+
+# Query all orders that are not shipped.
+query = select(Order).where(Order.status == False)
+unshipped_orders = session.execute(query).scalars().all()
+
+print("Unshipped Orders found:", len(unshipped_orders))
+
+
+for order in unshipped_orders:
+    for user in order.users:
+        print(f"User: {user.name} - Product: {', '.join([p.name for p in order.products])} - Quantity: {order.quantity}")
+
+print("----------------------------------------------------------")
+
+
+# Count the total number of orders per user.
+order_counts = {}
+for order in orders:
+    for user in order.users:
+        order_counts[user.name] = order_counts.get(user.name, 0) + 1
+
+print("Total Orders per User:")
+for user_name, count in order_counts.items():
+    print(f"User: {user_name}, Total Orders: {count}")
+
+
+print("----------------------------------------------------------")
