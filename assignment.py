@@ -1,4 +1,4 @@
-from sqlalchemy import Column, ForeignKey, Integer, Integer, String, Table, create_engine
+from sqlalchemy import Boolean, Column, ForeignKey, Integer, Integer, String, Table, create_engine
 from sqlalchemy.orm import DeclarativeBase, Mapped, Session, mapped_column, relationship
 from typing import List
 
@@ -39,10 +39,11 @@ class Order(Base):
     __tablename__ = 'orders'
     id: Mapped[int] = mapped_column(primary_key=True)
     quantity: Mapped[int] = mapped_column(Integer, nullable=False)
-    status: Mapped[str] = mapped_column(String(20), nullable=False)
+    status: Mapped[bool] = mapped_column(Boolean, nullable=False)
     users: Mapped[List['User']] = relationship('User', secondary=user_orders, back_populates='orders')
     products: Mapped[List['Product']] = relationship('Product', secondary=product_orders, back_populates='orders')
 
+# Base.metadata.drop_all(engine)
 Base.metadata.create_all(engine)
 
 session = Session(engine)
