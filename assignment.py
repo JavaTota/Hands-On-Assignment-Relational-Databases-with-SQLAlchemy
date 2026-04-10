@@ -80,20 +80,24 @@ session = Session(engine)
 # ])
 # session.commit()
 
+
+print("----------------------------------------------------------")
+
 # Retrieve all users and print their information.
 
-# query = session.query(User)
-# users = session.execute(query).scalars().all()
+users = session.scalars(select(User)).all()
 
-# for user in users:
-#     print(f"User: {user.name}, Email: {user.email}")
+for user in users:
+    print(f"User: {user.name}, Email: {user.email}")
+
+print("----------------------------------------------------------")
+
 
 # Retrieve all products and print their name and price.
-# query = session.query(Product)
-# products = session.execute(query).scalars().all()
+products = session.scalars(select(Product)).all()
 
-# for product in products:
-#     print(f"Product: {product.name}, Price: {product.price}")
+for product in products:
+    print(f"Product: {product.name}, Price: {product.price}")
 
 print("----------------------------------------------------------")
 
