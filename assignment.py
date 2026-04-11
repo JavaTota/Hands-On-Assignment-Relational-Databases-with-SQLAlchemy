@@ -2,7 +2,7 @@ from sqlalchemy import Boolean, Column, ForeignKey, Integer, Integer, String, Ta
 from sqlalchemy.orm import DeclarativeBase, Mapped, Session, mapped_column, relationship
 from typing import List
 
-engine = create_engine('mysql+mysqlconnector://root:Jahvante.97.mysql@localhost/Assignments')
+engine = create_engine('mysql+mysqlconnector://root:@localhost/Assignments')
 
 
 class Base(DeclarativeBase):
